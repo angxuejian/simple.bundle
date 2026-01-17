@@ -1,0 +1,17 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .: {}
+
+  packages/core: {}
+
+  playground:
+    dependencies:
+      '@simple-bundle':
+        specifier: workspace:*
+        version: link:../packages/core
