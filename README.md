@@ -6,9 +6,12 @@ simple.bundle is a learning-focused JavaScript bundler.
 
 | 功能点                      | 状态    | 说明                                    |
 | ------------------------ | ----- | ------------------------------------- |
-|dev         | todo | local server |
-|HTTP Server | todo | |
-|Static HTML | todo | |
-|ESM JS      | todo | |
+|dev         | done | local server |
+|HTTP Server | done | |
+|Static HTML | done | |
+|ESM JS      | done | |
+|ESN CSS     | todo | |
+|ESM png/jpg | todo | |
+|ESM @modules| todo | |
 |build       | todo | |
 |.....       | todo | |
