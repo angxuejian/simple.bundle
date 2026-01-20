@@ -1,5 +1,14 @@
-import { testFn } from "./test.js";
+import "./style.css?import";
+import logo from "/public/favicon.ico?import";
+import { helloFn } from "./hello.js";
 
-console.log("hello world ESM JS");
+document.querySelector("#app").innerHTML = `
+  <div>
+    <a href="https://github.com/angxuejian/simple.bundle" target="_blank">
+     <img src="${logo}" class="logo" alt="Vite logo" />
+    </a>
+    <h1>Hello Simple Bundle Playground!</h1>
+</div>
+`;
 
-testFn();
+helloFn()

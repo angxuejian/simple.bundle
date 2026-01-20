@@ -1,6 +1,14 @@
 import http from "http";
 import fs from "fs";
 import path from "path";
+import mime from "mime-types";
+import {
+  importBase,
+  importCss,
+  isImport,
+  importAsset,
+} from "./utils/import.js";
+import { transformJs } from "./utils/transform-js.js";
 
 export function createServer(options) {
   const root = options.root;
@@ -19,11 +27,15 @@ export function createServer(options) {
       res.end("Not Found");
       return;
     }
+    const ext = path.extname(filePath).toLowerCase();
+    const file = loadFileAsModule(filePath, ext, req.url, pathname);
 
-    const content = fs.readFileSync(filePath);
+    // if (ext === ".js") {
+    //   console.log(file.content.toString().split("\n"));
+    // }
 
-    res.setHeader("Content-Type", getContentType(filePath));
-    res.end(content);
+    res.setHeader("Content-Type", mime.contentType(file.type));
+    res.end(file.content);
   });
 
   server.listen(2580, () => {
@@ -31,10 +43,18 @@ export function createServer(options) {
   });
 }
 
-function getContentType(file) {
-  if (file.endsWith(".html")) return "text/html";
-  if (file.endsWith(".js")) return "application/javascript";
-  if (file.endsWith(".css")) return "text/css";
-  return "text/plain";
-}
+function loadFileAsModule(filePath, ext, url, pathname) {
+  if (/\.(js)/i.test(filePath)) {
+    const code = fs.readFileSync(filePath);
+    return transformJs(code);
+  }
 
+  if (isImport(url)) {
+    if (ext === ".css") return importCss(filePath);
+    else {
+      return importAsset(pathname);
+    }
+  }
+
+  return importBase(filePath, ext);
+}
