@@ -17,7 +17,8 @@ jobs:
       - name: Get version
         id: version
         run: |
-          echo "VERSION=v$(node -p "require('./packages/core/package.json')" >> $GITHUB_OUTPUT
+          VERSION=v$(node -p "require('./packages/core/package.json').version")
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create git tag
         uses: actions/github-script@v7
