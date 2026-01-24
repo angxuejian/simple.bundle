@@ -3,8 +3,6 @@ name: release simple.bundle
 on:
   push:
     branches: [main]
-    paths:
-      - packages/core/**
 
 jobs:
   release-core:
