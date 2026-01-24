@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@simple-bundle": "workspace:*"
+    "@simple-bundle": "workspace:*",
+    "canvas-confetti": "^1.9.4"
   }
 }

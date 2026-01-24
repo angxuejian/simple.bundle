@@ -9,10 +9,10 @@ simple.bundle is a learning-focused JavaScript bundler.
 |dev         | done | `local server` |
 |HTTP Server | done | `未扩展文件缓存` |
 |Static HTML | done | |
-|ESM JS      | done | |
+|ESM JS      | done | 只支持：`.js`、`.mjs`|
 |ESN CSS     | done | |
 |ESM png/jpg | done | |
-|ESM @modules| todo | |
-|Transform JS| todo | |
+|ESM modules| done | 只支持：`esm（pkg.module）` |
+|Transform JS| done | 只支持：`.css`、`.ico` |
 |build       | todo | |
 |.....       | todo | |

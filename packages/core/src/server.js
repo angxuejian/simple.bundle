@@ -9,6 +9,7 @@ import {
   importAsset,
 } from "./utils/import.js";
 import { transformJs } from "./utils/transform-js.js";
+import { $JS } from './utils/type.js'
 
 export function createServer(options) {
   const root = options.root;
@@ -28,11 +29,7 @@ export function createServer(options) {
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
-    const file = loadFileAsModule(filePath, ext, req.url, pathname);
-
-    // if (ext === ".js") {
-    //   console.log(file.content.toString().split("\n"));
-    // }
+    const file = loadFileAsModule(filePath, ext, req.url, pathname, root);
 
     res.setHeader("Content-Type", mime.contentType(file.type));
     res.end(file.content);
@@ -43,10 +40,10 @@ export function createServer(options) {
   });
 }
 
-function loadFileAsModule(filePath, ext, url, pathname) {
-  if (/\.(js)/i.test(filePath)) {
+function loadFileAsModule(filePath, ext, url, pathname, root) {
+  if ($JS.test(filePath)) {
     const code = fs.readFileSync(filePath);
-    return transformJs(code);
+    return transformJs(code, root);
   }
 
   if (isImport(url)) {
