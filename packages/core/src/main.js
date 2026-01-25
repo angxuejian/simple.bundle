@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { performance } from "node:perf_hooks";
 import { createServer } from "./server.js";
+import { createBundle } from "./bundle.js";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -28,6 +29,24 @@ function run() {
         console.log("\n");
       },
     });
+  }
+
+  if (command === 'build') {
+    createBundle({
+      root: process.cwd(),
+      onStart() {
+        console.log(
+          `${chalk.blue(`Simple.bundle v${pkg.version}`)} ${chalk.green("building for production...")}`,
+        );
+        console.log("");
+      },
+      onDone() {
+        const end = performance.now();
+        console.log("");
+        console.log(`${chalk.green(`✓ built in ${Math.round((end - start) / 1000).toFixed(2)}s`)}`)
+        console.log("\n");
+      }
+    })
   }
 }
 
