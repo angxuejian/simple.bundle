@@ -3,11 +3,11 @@ import logo from "/public/favicon.ico";
 import { setupConfetti } from "./confetti.js";
 import { setupCounter } from "./counter.js";
 
-
-document.querySelector("#app").innerHTML = `
+window.onload = function () {
+  document.querySelector("#app").innerHTML = `
   <div>
     <a href="https://github.com/angxuejian/simple.bundle" target="_blank">
-     <img src="${logo}" class="logo" alt="Simple Bundle logo" />
+      <img src="${logo}" class="logo" alt="Simple Bundle logo" />
     </a>
     <h1 id="confetti">Hello Simple Bundle Playground!</h1>
 
@@ -17,5 +17,6 @@ document.querySelector("#app").innerHTML = `
 </div>
 `;
 
-setupCounter(document.querySelector("#counter"));
-setupConfetti(document.querySelector("#confetti"));
+  setupCounter(document.querySelector("#counter"));
+  setupConfetti(document.querySelector("#confetti"));
+};
