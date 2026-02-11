@@ -244,20 +244,29 @@ function bundleJS(mGraph) {
   const modules = createModules(moduleGraph);
 
   return `
-    (function(modules) {
-      function require(id) {
-        const [fn, mapping] = modules[id];
+    (function(__simple_modules__) {
 
-        function localRequire(name) {
-          return require(mapping[name]);
+      const __simple_catch__ = {};
+
+      function __simple_require__(id) {
+        if (__simple_catch__[id]) {
+          return __simple_catch__[id].exports;
+        }
+
+        const [fn, mapping] = __simple_modules__[id];
+
+        function __simple_mapping__(name) {
+          return __simple_require__(mapping[name]);
         }
 
         const module = { exports: {} };
-        fn(localRequire, module, module.exports);
+        fn(__simple_mapping__, module, module.exports);
+        
+        __simple_catch__[id] = module;
         return module.exports;
       }
 
-      require(0);
+      __simple_require__(0);
     })(${modules});
   `;
 }
