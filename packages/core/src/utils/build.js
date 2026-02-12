@@ -275,9 +275,9 @@ function bundleJS(mGraph) {
         }
 
         const module = { exports: {} };
-        fn(__simple_mapping__, module, module.exports);
-        
         __simple_catch__[id] = module;
+
+        fn(__simple_mapping__, module, module.exports);
         return module.exports;
       }
 
