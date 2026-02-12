@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "play": "pnpm --filter playground dev",
-    "play:build": "pnpm --filter playground build"
+    "play:build": "pnpm --filter playground build",
+    "simple.vue:dev": "pnpm --filter simple.vue dev",
+    "simple.vue:build": "pnpm --filter simple.vue build"
   },
   "keywords": [],
   "author": "",

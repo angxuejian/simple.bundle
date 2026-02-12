@@ -1,0 +1,17 @@
+{
+  "name": "simple.vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "simple-bundle dev",
+    "build": "simple-bundle build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@simple-bundle": "workspace:*"
+  }
+}
