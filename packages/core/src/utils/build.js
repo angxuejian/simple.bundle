@@ -6,6 +6,7 @@ import { parse } from "@babel/parser";
 import traverseModule from "@babel/traverse";
 import * as babel from "@babel/core";
 import * as t from "@babel/types";
+import esbuild from "esbuild";
 
 let __ROOT__ = null;
 let __DIST__ = null;
@@ -80,14 +81,24 @@ function rewriteHtml(html) {
   }
 
   if (assetsList.size) {
+    let indexCssCode = "";
     assetsList.forEach((assetPath) => {
       if (assetPath.endsWith(".css")) {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = copyAssets(assetPath);
-        document.head.appendChild(link);
+        const cssContent = fs.readFileSync(assetPath, "utf-8");
+        indexCssCode += cssContent;
       }
     });
+    const cssOutput = esbuild.transformSync(indexCssCode, {
+      minify: true,
+      loader: "css",
+    }).code;
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = __BASEURL__ + "assets/index.css";
+    document.head.appendChild(link);
+
+    fs.writeFileSync(path.resolve(__ASSETS__, "index.css"), cssOutput);
   }
 
   const output = bundleJS(moduleGraph);
@@ -119,7 +130,6 @@ function parseMainJS(filePath) {
       process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
       process.stdout.write(`transforming(${moduleId}) ${importPath}`);
-
 
       if (depPath.endsWith(".js") || depPath.endsWith(".mjs")) {
         deps[importPath] = depPath;
@@ -211,11 +221,16 @@ function bundleJS(mGraph) {
   });
 
   const wrapCode = (code) => {
+    const result = esbuild.transformSync(code, {
+      loader: "js",
+      minify: true,
+    });
+
     return `
-    function (require, module, exports) {
-      ${code}
-    }
-  `;
+      function (require, module, exports) {
+        ${result.code}
+      }
+    `;
   };
 
   const createMapping = (deps) => {
