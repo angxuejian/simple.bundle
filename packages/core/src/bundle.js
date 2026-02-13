@@ -3,7 +3,7 @@ import { logRootDir } from "./utils/log.js";
 import path from "path";
 import fs from "fs";
 
-const baseurl = './'
+const baseurl = '/simple.bundle/'
 
 export function createBundle(options) {
   const root = options.root;

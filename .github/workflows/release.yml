@@ -15,6 +15,31 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.6
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.9
+
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Playground build
+        run: pnpm play:build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: playground/dist   # ⚠️ 改成你的构建目录
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
       - name: Read core package version
         run: |
           VERSION=$(node -p 'require("./packages/core/package.json").version')
