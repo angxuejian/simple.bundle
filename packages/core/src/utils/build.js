@@ -20,6 +20,7 @@ const visited = new Set();
 const moduleGraph = [];
 const assetsList = new Set();
 const traverse = traverseModule.default;
+const isCI = process.env.CI === "true";
 
 export function build(options) {
   __ROOT__ = options.root;
@@ -76,8 +77,11 @@ function rewriteHtml(html) {
     fs.mkdirSync(__ASSETS__, { recursive: true });
 
     parseMainJS(baseMainPath);
-    process.stdout.clearLine(0);
-    process.stdout.cursorTo(0);
+
+    if (!isCI && process.stdout.isTTY) {
+      process.stdout.clearLine(0);
+      process.stdout.cursorTo(0);
+    }
   }
 
   if (assetsList.size) {
@@ -127,9 +131,11 @@ function parseMainJS(filePath) {
       const importPath = path.node.source.value;
       const depPath = resolveImportPath(importPath, filePath);
 
-      process.stdout.clearLine(0);
-      process.stdout.cursorTo(0);
-      process.stdout.write(`transforming(${moduleId}) ${importPath}`);
+      if (!isCI && process.stdout.isTTY) {
+        process.stdout.clearLine(0);
+        process.stdout.cursorTo(0);
+        process.stdout.write(`transforming(${moduleId}) ${importPath}`);
+      }
 
       if (depPath.endsWith(".js") || depPath.endsWith(".mjs")) {
         deps[importPath] = depPath;
