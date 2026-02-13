@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.19.6
-          cache: pnpm
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -27,7 +26,7 @@ jobs:
           version: 8.15.9
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
       
       - name: Playground build
         run: pnpm play:build
