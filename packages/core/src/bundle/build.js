@@ -7,6 +7,7 @@ import traverseModule from "@babel/traverse";
 import * as babel from "@babel/core";
 import * as t from "@babel/types";
 import esbuild from "esbuild";
+import chalk from "chalk";
 
 let __ROOT__ = null;
 let __DIST__ = null;
@@ -21,6 +22,12 @@ const moduleGraph = [];
 const assetsList = new Set();
 const traverse = traverseModule.default;
 const isCI = process.env.CI === "true";
+
+const processCallback = (callback) => {
+  if (!isCI && process.stdout.isTTY) {
+    callback();
+  }
+};
 
 export function build(options) {
   __ROOT__ = options.root;
@@ -78,10 +85,10 @@ function rewriteHtml(html) {
 
     parseMainJS(baseMainPath);
 
-    if (!isCI && process.stdout.isTTY) {
+    processCallback(() => {
       process.stdout.clearLine(0);
       process.stdout.cursorTo(0);
-    }
+    });
   }
 
   if (assetsList.size) {
@@ -131,11 +138,14 @@ function parseMainJS(filePath) {
       const importPath = path.node.source.value;
       const depPath = resolveImportPath(importPath, filePath);
 
-      if (!isCI && process.stdout.isTTY) {
+      processCallback(() => {
         process.stdout.clearLine(0);
         process.stdout.cursorTo(0);
-        process.stdout.write(`transforming(${moduleId}) ${importPath}`);
-      }
+
+        process.stdout.write(
+          chalk.gray(`transforming(${moduleId}) `) + importPath,
+        );
+      });
 
       if (depPath.endsWith(".js") || depPath.endsWith(".mjs")) {
         deps[importPath] = depPath;

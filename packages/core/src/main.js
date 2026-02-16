@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { performance } from "node:perf_hooks";
-import { createServer } from "./server.js";
-import { createBundle } from "./bundle.js";
+import { createServer } from "./server/index.js";
+import { createBundle } from "./bundle/index.js";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -43,7 +43,7 @@ function run() {
       onDone() {
         const end = performance.now();
         console.log("");
-        console.log(`${chalk.green(`✓ built in ${Math.round((end - start) / 1000).toFixed(2)}s`)}`)
+        console.log(`${chalk.green(`✓ built in ${((end - start) / 1000).toFixed(2)}s`)}`)
         console.log("\n");
       }
     })

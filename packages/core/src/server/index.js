@@ -7,9 +7,9 @@ import {
   importCss,
   isImport,
   importAsset,
-} from "./utils/import.js";
-import { transformJs } from "./utils/transform-js.js";
-import { $JS } from './utils/type.js'
+} from "./import.js";
+import { transformJs } from "./transform-js.js";
+import { $JS } from './type.js'
 
 export function createServer(options) {
   const root = options.root;

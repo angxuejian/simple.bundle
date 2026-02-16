@@ -31,6 +31,8 @@ export function logRootDir(rootDir) {
   });
 
   const maxLen = Math.max(...results.map((r) => r.file.length));
+  // results.sort((a, b) => getPriority(a.file) - getPriority(b.file));
+
   for (const r of results) {
     const name = r.file.padEnd(maxLen);
     const size = formatSize(r.size).padStart(8);
@@ -40,7 +42,7 @@ export function logRootDir(rootDir) {
     const base = path.basename(name);
 
     console.log(
-      `${dir}${[path.sep]}${chalk.green(base)} ${size} │ gzip: ${gzip}`,
+      `${chalk.gray(dir)}${chalk.gray([path.sep])}${colorByExt(base)} ${size} │ gzip: ${gzip}`,
     );
   }
 }
@@ -50,4 +52,24 @@ function getGzipSize(buffer) {
 }
 function formatSize(bytes) {
   return (bytes / 1024).toFixed(2) + " kB";
+}
+
+function colorByExt(filename) {
+  const ext = path.extname(filename).trim().toLowerCase();
+  switch (ext) {
+    case '.html':
+      return chalk.green(filename); 
+    // case '.js':
+    //   return chalk.yellow(filename);
+    default:
+      return chalk.magenta(filename);
+  }
+}
+
+function getPriority(filename) {
+  const ext = path.extname(filename).trim().toLowerCase();
+
+  if (ext === '.html') return 2;
+  if (ext === '.js') return 1;
+  return 0;
 }
