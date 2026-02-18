@@ -23,3 +23,11 @@ simple.bundle is a learning-focused JavaScript bundler.
 | moduleGraph       | done |                                         |
 | runtime / bundler | done |                                         |
 | asset / public    | done | copy 静态资源                           |
+| chunk             | todo |                                         |
+
+## Command
+
+| command | 说明           |
+| ------- | -------------- |
+| dev     | `local server` |
+| build   | `bundle js`     |
